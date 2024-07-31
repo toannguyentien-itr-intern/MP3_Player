@@ -5,7 +5,7 @@ The purpose of the Malkman MP3 Player is to create an engaging and versatile aud
 | Components      | Functionality                                     |
 | --------------- | ------------------------------------------------- |
 | STM32F411RE     | Main microcontroller                              |
-| DFR0299        | MP3 module                                       |
+| DFR0299         | MP3 module                                        |
 | SSD1306         | UI display                                        |
 | MicroSD Card    | Store MP3 files                                   |
 | Buttons         | User input (Play, Pause, Next, Previous)          |
