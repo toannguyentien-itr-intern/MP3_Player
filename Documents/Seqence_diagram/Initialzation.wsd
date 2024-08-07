@@ -33,10 +33,12 @@ Buzzer -> MainSystem: Return TIMER_4 status
 deactivate Buzzer
 end
 
-MainSystem -> RotationSensor: Initialize (ADC setup, calibration)
+group ADC_1 connect
+MainSystem -> RotationSensor: Init ADC_1
 activate RotationSensor
-RotationSensor -> MainSystem: Initialization Complete
+RotationSensor -> MainSystem: Return ADC_1 status
 deactivate RotationSensor
+end
 
 MainSystem -> OLED: Display logo
 activate OLED
