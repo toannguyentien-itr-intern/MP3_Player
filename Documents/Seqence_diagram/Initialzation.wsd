@@ -1,8 +1,8 @@
 @startuml
 actor User
 participant "Main System" as MainSystem
-participant SYSTEM_OLED as OLED
-participant SYSTEM_ADIDO as AUDIO
+participant OLED
+participant DFPlayer
 participant Buzzer
 participant "Rotation Sensor" as RotationSensor
 
@@ -30,6 +30,14 @@ RotationSensor -> MainSystem: Initialization Complete
 deactivate RotationSensor
 
 MainSystem -> OLED: Display logo
+activate OLED
+OLED -> MainSystem: Logo displayed
+deactivate OLED
+
 MainSystem -> Buzzer: Play "Mario" sound
+activate Buzzer
+Buzzer -> MainSystem: Sound played
+deactivate Buzzer
+
 deactivate MainSystem
 @enduml
