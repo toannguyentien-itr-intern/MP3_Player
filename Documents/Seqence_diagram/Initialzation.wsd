@@ -1,21 +1,26 @@
 @startuml Initialization
 
 actor User
-participant "System_init"   as    MainSystem
-participant OLED            as    "Oled"
+participant "System init"   as    MainSystem
+participant OLED            as    "oled"
 participant DFPlayer        as    "dfplayer"
 participant Buzzer          as    "buzzer"
-participant RotationSensor  as    "Rotation Sensor" 
+participant RotationSensor  as    "rotation Sensor" 
 
 User -> MainSystem: Power On
 activate MainSystem
 
-MainSystem -> OLED: Initialize (I2C setup, configure settings)
-activate OLED
-OLED -> MainSystem: Initialization Complete
-deactivate OLED
+== Process view - System init manager ==
 
-MainSystem -> DFPlayer: Initialize (UART setup, configure settings)
+group I2C2 connect
+MainSystem -> OLED: Init I2C2 
+activate OLED
+OLED -> MainSystem: Return I2C2 status
+deactivate OLED
+end
+
+group UART2 connect
+MainSystem -> DFPlayer: Init UART2
 activate DFPlayer
 DFPlayer -> MainSystem: Initialization Complete
 deactivate DFPlayer
