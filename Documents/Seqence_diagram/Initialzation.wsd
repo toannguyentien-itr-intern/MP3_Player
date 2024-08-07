@@ -22,8 +22,10 @@ end
 group UART2 connect
 MainSystem -> DFPlayer: Init UART2
 activate DFPlayer
-DFPlayer -> MainSystem: Initialization Complete
+DFPlayer -> MainSystem: Return UART2 status
 deactivate DFPlayer
+end
+
 
 MainSystem -> Buzzer: Initialize (GPIO and timer setup)
 activate Buzzer
