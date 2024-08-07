@@ -50,6 +50,11 @@ Buzzer -> MainSystem: Return play status
 deactivate Buzzer
 end
 
+deactivate MainSystem
 
-' deactivate MainSystem
+' note below of MainSystem
+'   Communication protocols:
+'     - I2C
+
+
 @enduml
