@@ -21,7 +21,7 @@ DFPlayer -> MainSystem: Return UART2 status
 deactivate DFPlayer
 end
 
-group ADC_1 connect
+group ADC1 connect
 MainSystem -> RotationSensor: Init ADC_1
 activate RotationSensor
 RotationSensor -> MainSystem: Return ADC_1 status
@@ -34,23 +34,22 @@ activate OLED
 OLED -> MainSystem: Return I2C2 status
 deactivate OLED
 MainSystem -> OLED: Display logo "WALKMAN"
+activate OLED
 OLED -> MainSystem: Logo displayed
+deactivate OLED
 end
-
-
-
 
 group TIMER_4 connect
 MainSystem -> Buzzer: Init TIMER_4
 activate Buzzer
 Buzzer -> MainSystem: Return TIMER_4 status
 deactivate Buzzer
-end
-
 MainSystem -> Buzzer: Play "Mario" sound
 activate Buzzer
-Buzzer -> MainSystem: Sound played
+Buzzer -> MainSystem: Return play status
 deactivate Buzzer
+end
 
-deactivate MainSystem
+
+' deactivate MainSystem
 @enduml
