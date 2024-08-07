@@ -2,35 +2,23 @@
 
 actor User
 participant "System init"   as    MainSystem
-participant OLED            as    "oled"
 participant DFPlayer        as    "dfplayer"
-participant Buzzer          as    "buzzer"
 participant RotationSensor  as    "rotation Sensor" 
+participant OLED            as    "oled"
+participant Buzzer          as    "buzzer"
+
 
 User -> MainSystem: Power On
 activate MainSystem
 
 == Process view - System init manager ==
 
-group I2C2 connect
-MainSystem -> OLED: Init I2C2 
-activate OLED
-OLED -> MainSystem: Return I2C2 status
-deactivate OLED
-end
 
 group UART2 connect
 MainSystem -> DFPlayer: Init UART2
 activate DFPlayer
 DFPlayer -> MainSystem: Return UART2 status
 deactivate DFPlayer
-end
-
-group TIMER_4 connect
-MainSystem -> Buzzer: Init TIMER_4
-activate Buzzer
-Buzzer -> MainSystem: Return TIMER_4 status
-deactivate Buzzer
 end
 
 group ADC_1 connect
@@ -40,10 +28,24 @@ RotationSensor -> MainSystem: Return ADC_1 status
 deactivate RotationSensor
 end
 
-MainSystem -> OLED: Display logo
+group I2C2 connect
+MainSystem -> OLED: Init I2C2 
 activate OLED
-OLED -> MainSystem: Logo displayed
+OLED -> MainSystem: Return I2C2 status
 deactivate OLED
+MainSystem -> OLED: Display logo "WALKMAN"
+OLED -> MainSystem: Logo displayed
+end
+
+
+
+
+group TIMER_4 connect
+MainSystem -> Buzzer: Init TIMER_4
+activate Buzzer
+Buzzer -> MainSystem: Return TIMER_4 status
+deactivate Buzzer
+end
 
 MainSystem -> Buzzer: Play "Mario" sound
 activate Buzzer
