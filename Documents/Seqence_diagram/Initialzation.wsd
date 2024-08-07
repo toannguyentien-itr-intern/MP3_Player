@@ -1,0 +1,35 @@
+@startuml
+actor User
+participant "Main System" as MainSystem
+participant SYSTEM_OLED as OLED
+participant SYSTEM_ADIDO as AUDIO
+participant Buzzer
+participant "Rotation Sensor" as RotationSensor
+
+User -> MainSystem: Power On
+activate MainSystem
+
+MainSystem -> OLED: Initialize (I2C setup, configure settings)
+activate OLED
+OLED -> MainSystem: Initialization Complete
+deactivate OLED
+
+MainSystem -> DFPlayer: Initialize (UART setup, configure settings)
+activate DFPlayer
+DFPlayer -> MainSystem: Initialization Complete
+deactivate DFPlayer
+
+MainSystem -> Buzzer: Initialize (GPIO and timer setup)
+activate Buzzer
+Buzzer -> MainSystem: Initialization Complete
+deactivate Buzzer
+
+MainSystem -> RotationSensor: Initialize (ADC setup, calibration)
+activate RotationSensor
+RotationSensor -> MainSystem: Initialization Complete
+deactivate RotationSensor
+
+MainSystem -> OLED: Display logo
+MainSystem -> Buzzer: Play "Mario" sound
+deactivate MainSystem
+@enduml
