@@ -1,10 +1,11 @@
-@startuml
+@startuml Initialization
+
 actor User
-participant "Main System" as MainSystem
-participant OLED
-participant DFPlayer
-participant Buzzer
-participant "Rotation Sensor" as RotationSensor
+participant "System_init"   as    MainSystem
+participant OLED            as    "Oled"
+participant DFPlayer        as    "dfplayer"
+participant Buzzer          as    "buzzer"
+participant RotationSensor  as    "Rotation Sensor" 
 
 User -> MainSystem: Power On
 activate MainSystem
