@@ -1,0 +1,22 @@
+@startuml
+
+participant "System init"   as    System_init
+participant "OLED" as OLED
+participant "Rotation Sensor" as RotationSensor
+
+== Notify the idle scrren ==
+
+group Send Comamnd
+System_init -> OLED: Display logo
+activate OLED
+OLED -> MainSystem: Logo displayed
+deactivate OLED\
+end
+
+MainSystem -> MainSystem: Wait for user input
+
+User -> MainSystem: Press button
+activate MainSystem
+MainSystem -> MainSystem: Process user input
+deactivate MainSystem
+@enduml
