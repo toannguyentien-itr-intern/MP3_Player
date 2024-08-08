@@ -3,6 +3,8 @@
 participant "System init"   as    System_init
 participant "OLED"          as    OLED
 participant "Buzzer"        as    Buzzer
+participant "System main"   as    System_main
+
 
 == Notify the idle scrren ==
 
@@ -19,5 +21,7 @@ activate Buzzer
 Buzzer -> System_init: Return the make rhythm finish status
 deactivate Buzzer
 end
+
+
 
 @enduml
