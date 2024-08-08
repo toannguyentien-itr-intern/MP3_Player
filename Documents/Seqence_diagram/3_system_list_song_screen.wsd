@@ -1,11 +1,10 @@
-@startuml
+@startuml system_list_song_screen
 actor User
-participant "Main System" as MainSystem
+participant "System main"   as    System_main
 participant OLED
+participant DFPLAYER
 
-User -> MainSystem: Hold Mid button (>2s)
-activate MainSystem
-
+group interact with OLED
 MainSystem -> OLED: Display list of songs
 activate OLED
 OLED -> MainSystem: List displayed with cursor at first song
