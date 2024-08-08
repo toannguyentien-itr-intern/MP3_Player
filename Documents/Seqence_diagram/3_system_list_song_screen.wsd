@@ -17,40 +17,29 @@ deactivate System_main
 end
 
 
-loop Navigation 
+loop Navigation
+    User -> System_main: Press button
 
-User -> System_main: Press
+    alt Detect_button_press == Left && Detect_click_hold == 1 click
+        alt Cursor > 1
+            System_main -> System_main: Cursor--
+            System_main -> OLED: Move the cursor of display up
+        end
 
-alt [Detect_button_press == Left && Detect_click_hold == 1 click]
-  alt [Cursor > 1]
-    System_main -> System_main: Cursor = cursor - 1 
-    System_main -> OLED: Move the cursor of display up
-  else [Cursor = 1]
-    System_main -> System_main: Cursor = 1
-  end
+    else Detect_button_press == Right && Detect_click_hold == 1 click
+        alt Cursor < SONG_NUMBER
+            System_main -> System_main: Cursor++
+            System_main -> OLED: Move the cursor of display down
+        end
 
-
-else [Detect_button_press == Right && Detect_click_hold == 1 click]
-  alt [Cursor < SONG_NUMBER]
-    System_main -> System_main: Cursor = cursor + 1 
-    System_main -> OLED: Move the cursor of display down
-  else [Cursor == SONG_NUMBER]
-    System_main -> System_main: Cursor = SONG_NUMBER
-  end
-
-else [Detect_button_press == Mid && Detect_click_hold == 1 click]
-  System_main -> OLED: Display the playing song screen
-  activate System_main
-  System_main -> System_main: Transition to Playing Song State
-  deactivate System_main
+    else Detect_button_press == Mid && Detect_click_hold == 1 click
+        System_main -> System_main: Transition to Playing Song State
+        System_main -> OLED: Display the playing song screen
+        System_main -> DFPLAYER: Play the song the with the index = cursor
+    end
 end
-
-end
-
-
-
-' User -> System_main: Click Mid button
-' activate System_main
-
-' System_main -> System_main: 
 @enduml
+
+
+
+
