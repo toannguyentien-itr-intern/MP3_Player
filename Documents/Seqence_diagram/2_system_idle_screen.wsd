@@ -7,15 +7,15 @@ participant "Rotation Sensor" as RotationSensor
 == Notify the idle scrren ==
 
 group Send Comamnd
-System_init -> OLED: Display logo
+System_init -> OLED: Display logo "Walkman"
 activate OLED
-OLED -> MainSystem: Logo displayed
-deactivate OLED\
+OLED -> MainSystem: Return display logo finish status
+deactivate OLED
 end
 
 MainSystem -> MainSystem: Wait for user input
 
-User -> MainSystem: Press button
+System_init -> MainSystem: Press button
 activate MainSystem
 MainSystem -> MainSystem: Process user input
 deactivate MainSystem
