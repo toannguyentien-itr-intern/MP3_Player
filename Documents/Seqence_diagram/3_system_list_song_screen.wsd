@@ -5,13 +5,23 @@ participant OLED
 participant DFPLAYER
 
 group interact with OLED
+
 System_main -> OLED: Display list of songs
+activate System_main
+activate OLED
 OLED -> System_main: Return display list song status  
+deactivate OLED
 System_main -> System_main: Create a default cursor at first song (cursor = 1)
+deactivate System_main
+
 end
 
+
 loop Navigation 
-alt [Detect_button_press == Left && Detect_click_hold = 1 click]
+
+User -> System_main: Press
+
+alt [Detect_button_press == Left && Detect_click_hold == 1 click]
   alt [Cursor > 1]
     System_main -> System_main: Cursor = cursor - 1 
     System_main -> OLED: Move the cursor of display up
@@ -19,7 +29,8 @@ alt [Detect_button_press == Left && Detect_click_hold = 1 click]
     System_main -> System_main: Cursor = 1
   end
 
-else [Detect_button_press == Right && Detect_click_hold = 1 click]
+
+else [Detect_button_press == Right && Detect_click_hold == 1 click]
   alt [Cursor < SONG_NUMBER]
     System_main -> System_main: Cursor = cursor + 1 
     System_main -> OLED: Move the cursor of display down
@@ -27,24 +38,19 @@ else [Detect_button_press == Right && Detect_click_hold = 1 click]
     System_main -> System_main: Cursor = SONG_NUMBER
   end
 
-end 
+else [Detect_button_press == Mid && Detect_click_hold == 1 click]
+  System_main -> OLED: Display the playing song screen
+  activate System_main
+  System_main -> System_main: Transition to Playing Song State
+  deactivate System_main
 end
 
-System_main -> System_main: Transition to List Song State
+end
 
-loop Navigation
 
-    User -> System_main: Click Left/Right button
-    activate System_main
-    System_main -> OLED: Move cursor up/down and update display
-    activate OLED
-    OLED -> System_main: Cursor updated
-    deactivate OLED
-    deactivate System_main
 
-end 
-User -> System_main: Click Mid button
-activate System_main
+' User -> System_main: Click Mid button
+' activate System_main
 
-System_main -> System_main: Transition to Playing Song State
+' System_main -> System_main: 
 @enduml
