@@ -13,6 +13,14 @@ System_main -> System_main: playbackStatus = "1"
 activate System_main
 System_main -> System_main: playbackMode = "0"
 deactivate System_main
+note right of System_main
+  playbackStatu = 0: Pause - Stop playing
+                = 1: Playing
+  playbackMode  = 0: Normal_Default - Play only once
+  playbackMode  = 1: Repeat
+  playbackMode  = 2: Random
+end note
+
 
 
 loop system_playing_song_screen
