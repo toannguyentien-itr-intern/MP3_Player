@@ -21,11 +21,14 @@ end note
 
 loop system_playing_song_screen
 
-  User -> System_main: Press button
+  User -> System_main: Change the playback status
+
   alt Detect_button_press == mid && detect_click_hold == 1 click
     alt playbackMode == 0
       System_main -> DFPlayer: Send command to play back the current track
+      activate DFPlayer
       DFPlayer -> System_main: Return Playback status
+      deactivate DFPlayer
       System_main -> OLED: Display "Playing" status
       System_main -> System_main: playbackMode = 1
     end
@@ -35,47 +38,68 @@ loop system_playing_song_screen
 
     alt playbackMode == 1
       System_main -> DFPlayer: Send command to pause the current track
+      activate DFPlayer
       DFPlayer -> System_main: Return Playback status
+      deactivate DFPlayer
       System_main -> OLED: Display "Paused" status
       System_main -> System_main: playbackMode = 0
     end
     note right of OLED
       System controls that playback is currently paused
     end note
-
   end
 
   User -> System_main: Change the playback mode
 
-
-  alt Change Mode
-    System_main -> System_main: Update playbackMode
-    alt Normal
-      note right of System_main
-        Set playbackMode to "Normal"
-      end note
-    else Repeat
-      note right of System_main
-        Set playbackMode to "Repeat"
-      end note
-    else Random
-      note right of System_main
-        Set playbackMode to "Random"
-      end note
+  alt Detect_button_press == left && detect_click_hold == 2 click
+    alt playbackMode == Normal
+      system_main -> DFPlayer: Change the playback mode to random
+      activate DFPlayer
+      DFPlayer -> system_main: Return the play back mode status
+      deactivate DFPlayer
+      System_main -> OLED: Display the random mode
+      system_main -> system_main: playbackMode = Random
     end
-    System_main -> OLED: Display current playbackMode
-    deactivate System_main
+    note right of System_main
+      Set playbackMode to "Random"
+    end note
+
+    else playbackMode == Repeat
+      system_main -> DFPlayer: Change the playback mode to Normal
+      activate DFPlayer
+      DFPlayer -> system_main: Return the play back mode Normal
+      deactivate DFPlayer
+      System_main -> OLED: Display the normal mode
+      system_main -> system_main: playbackMode = Normal
+    end
+    note right of System_main
+      Set playbackMode to "Normal"
+    end note
+
+    
+
+  else Repeat
+    note right of System_main
+      Set playbackMode to "Repeat"
+    end note
+  else Random
+    note right of System_main
+      Set playbackMode to "Random"
+    end note
   end
-
-  User -> System_main: Double-click Mid button (Transition to List Song State)
-  activate System_main
-
-  System_main -> System_main: Save playbackStatus and playbackMode
-  System_main -> OLED: Display list of songs
-  activate OLED
-  OLED -> System_main: List displayed with cursor at [cursor]
-  deactivate OLED
-
-  System_main -> System_main: Transition to List Song State
+  System_main -> OLED: Display current playbackMode
   deactivate System_main
-  @enduml
+end
+
+User -> System_main: Double-click Mid button (Transition to List Song State)
+activate System_main
+
+System_main -> System_main: Save playbackStatus and playbackMode
+System_main -> OLED: Display list of songs
+activate OLED
+OLED -> System_main: List displayed with cursor at [cursor]
+deactivate OLED
+
+System_main -> System_main: Transition to List Song State
+deactivate System_main
+@enduml
