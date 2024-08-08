@@ -77,7 +77,6 @@ loop system_playing_song_screen
     end note
 
     
-
   else Repeat
     note right of System_main
       Set playbackMode to "Repeat"
