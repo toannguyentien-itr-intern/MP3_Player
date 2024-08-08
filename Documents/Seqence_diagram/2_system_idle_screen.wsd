@@ -22,6 +22,11 @@ Buzzer -> System_init: Return the make rhythm finish status
 deactivate Buzzer
 end
 
+alt
+   [Detect_button_press == Mid && Detect_click_hold == Hold]
+System_init -> OLED: Display the default mode of list song
 
+    [else]
+System_init -> System_init: Staying at the current state
 
 @enduml
