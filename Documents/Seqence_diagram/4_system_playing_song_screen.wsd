@@ -5,77 +5,75 @@ participant OLED
 participant DFPlayer
 participant Rotation_sensor as "Rotation Sensor"
 
-!define playbackStatus "Playing"
-!define playbackMode "Normal"
-
 
 System_main -> System_main: playbackStatus = "1"
 activate System_main
 System_main -> System_main: playbackMode = "0"
 deactivate System_main
 note right of System_main
-  playbackStatu = 0: Pause - Stop playing
-                = 1: Playing
+  playbackStatus  = 0: Pause - Stop playing
+                  = 1: Playing
   playbackMode  = 0: Normal_Default - Play only once
   playbackMode  = 1: Repeat
   playbackMode  = 2: Random
 end note
 
 
-
 loop system_playing_song_screen
 
-User -> MainSystem: Press button
-alt (Detect_button_press == mid && detect_click_hold == 1 click)
-   
-    MainSystem -> DFPlayer: Toggle Play/Pause
+User -> System_main: Press button
+alt Detect_button_press == mid && detect_click_hold == 1 click
+  alt playbackMode == 0
+    System_main -> DFPlayer: Send command to play back the current track
     activate DFPlayer
-    DFPlayer -> MainSystem: Playback status updated
+    DFPlayer -> System_main: Return Playback status
     deactivate DFPlayer
+    System_main -> System_main: playbackMode = 1
+  end
     alt Playback Status
-        MainSystem -> OLED: Display "Playing" status
+        System_main -> OLED: Display "Playing" status
         note right of OLED
             OLED shows that playback is currently playing
         end note
     else Paused
-        MainSystem -> OLED: Display "Paused" status
+        System_main -> OLED: Display "Paused" status
         note right of OLED
             OLED shows that playback is currently paused
         end note
     end
 end
 
-User -> MainSystem: Click Left/Right button (Change Mode)
-activate MainSystem
+User -> System_main: Click Left/Right button (Change Mode)
+activate System_main
 
 alt Change Mode
-    MainSystem -> MainSystem: Update playbackMode
+    System_main -> System_main: Update playbackMode
     alt Normal
-        note right of MainSystem
+        note right of System_main
             Set playbackMode to "Normal"
         end note
     else Repeat
-        note right of MainSystem
+        note right of System_main
             Set playbackMode to "Repeat"
         end note
     else Random
-        note right of MainSystem
+        note right of System_main
             Set playbackMode to "Random"
         end note
     end
-    MainSystem -> OLED: Display current playbackMode
-    deactivate MainSystem
+    System_main -> OLED: Display current playbackMode
+    deactivate System_main
 end
 
-User -> MainSystem: Double-click Mid button (Transition to List Song State)
-activate MainSystem
+User -> System_main: Double-click Mid button (Transition to List Song State)
+activate System_main
 
-MainSystem -> MainSystem: Save playbackStatus and playbackMode
-MainSystem -> OLED: Display list of songs
+System_main -> System_main: Save playbackStatus and playbackMode
+System_main -> OLED: Display list of songs
 activate OLED
-OLED -> MainSystem: List displayed with cursor at [cursor]
+OLED -> System_main: List displayed with cursor at [cursor]
 deactivate OLED
 
-MainSystem -> MainSystem: Transition to List Song State
-deactivate MainSystem
+System_main -> System_main: Transition to List Song State
+deactivate System_main
 @enduml
