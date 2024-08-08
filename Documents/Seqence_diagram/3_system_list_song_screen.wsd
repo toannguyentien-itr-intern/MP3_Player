@@ -3,7 +3,8 @@ actor User
 participant "System main"   as    System_main
 participant OLED
 participant DFPLAYER
-
+participant BUZZER
+participant "System end"    as    System_end
 group interact with OLED
 
 System_main -> OLED: Display list of songs
@@ -40,6 +41,14 @@ loop Interact with system list song state
         System_main -> OLED: Display the playing song screen
         System_main -> DFPLAYER: Play the song the with the index = cursor
     end
+
+    User -> System_main: Hold button
+    alt Detect_button_press == MID && Detect_click_hold == 1 hold
+        System_main -> System_end: Turn off the mp3 player
+        System_main -> OLED: Display the logo image
+        System_main -> BUZZER: Make the rhythm of "Nokia" sound
+    end
+
 end
 @enduml
 
