@@ -1,22 +1,23 @@
 @startuml
 
 participant "System init"   as    System_init
-participant "OLED" as OLED
-participant "Rotation Sensor" as RotationSensor
+participant "OLED"          as    OLED
+participant "Buzzer"        as    Buzzer
 
 == Notify the idle scrren ==
 
-group Send Comamnd
+group Notify by OLED
 System_init -> OLED: Display logo "Walkman"
 activate OLED
-OLED -> MainSystem: Return display logo finish status
+OLED -> System_init: Return display logo finish status
 deactivate OLED
 end
 
-MainSystem -> MainSystem: Wait for user input
+group Notify by buzzer
+System_init -> Buzzer: Make the rhythm "Mario"
+activate Buzzer
+Buzzer -> System_init: Return the make rhythm finish status
+deactivate Buzzer
+end
 
-System_init -> MainSystem: Press button
-activate MainSystem
-MainSystem -> MainSystem: Process user input
-deactivate MainSystem
 @enduml
