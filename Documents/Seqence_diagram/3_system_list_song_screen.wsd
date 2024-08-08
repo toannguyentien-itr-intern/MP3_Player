@@ -8,16 +8,25 @@ group interact with OLED
 System_main -> OLED: Display list of songs
 activate OLED
 OLED -> System_main: Return display list song status  
-System_main -> System_main: Create a default cursor = 1 at first song
+System_main -> System_main: Create a default cursor at first song (cursor = 1)
 deactivate OLED
 
 
 alt [Detect_button_press == Left && Detect_click_hold = 1 click]
-      alt [Cursor > 1]
-      Cursor = cursor - 1 
-    System_main -> OLED: Move the 
+  alt [Cursor > 1]
+    System_main -> System_main: Cursor = cursor - 1 
+    System_main -> OLED: Move the cursor of display up
+  else
+    System_main -> System_main: Cursor = 0
+  end
 
-
+else [Detect_button_press == Right && Detect_click_hold = 1 click]
+  alt [Cursor < SONG_NUMBER]
+    System_main -> System_main: Cursor = cursor + 1 
+    System_main -> OLED: Move the cursor of display down
+  else
+    System_main -> System_main: Cursor = SONG_NUMBER
+  end
 
 end 
 
