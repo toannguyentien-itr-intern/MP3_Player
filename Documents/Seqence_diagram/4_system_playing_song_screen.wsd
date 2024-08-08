@@ -1,0 +1,64 @@
+@startuml system_playing
+actor User
+participant "Main System" as MainSystem
+participant OLED
+participant DFPlayer
+
+!define playbackStatus "Playing"
+!define playbackMode "Normal"
+
+User -> MainSystem: Click Mid button (Play/Pause)
+activate MainSystem
+
+alt Play/Pause
+    MainSystem -> DFPlayer: Toggle Play/Pause
+    activate DFPlayer
+    DFPlayer -> MainSystem: Playback status updated
+    deactivate DFPlayer
+    alt Playback Status
+        MainSystem -> OLED: Display "Playing" status
+        note right of OLED
+            OLED shows that playback is currently playing
+        end note
+    else Paused
+        MainSystem -> OLED: Display "Paused" status
+        note right of OLED
+            OLED shows that playback is currently paused
+        end note
+    end
+end
+
+User -> MainSystem: Click Left/Right button (Change Mode)
+activate MainSystem
+
+alt Change Mode
+    MainSystem -> MainSystem: Update playbackMode
+    alt Normal
+        note right of MainSystem
+            Set playbackMode to "Normal"
+        end note
+    else Repeat
+        note right of MainSystem
+            Set playbackMode to "Repeat"
+        end note
+    else Random
+        note right of MainSystem
+            Set playbackMode to "Random"
+        end note
+    end
+    MainSystem -> OLED: Display current playbackMode
+    deactivate MainSystem
+end
+
+User -> MainSystem: Double-click Mid button (Transition to List Song State)
+activate MainSystem
+
+MainSystem -> MainSystem: Save playbackStatus and playbackMode
+MainSystem -> OLED: Display list of songs
+activate OLED
+OLED -> MainSystem: List displayed with cursor at [cursor]
+deactivate OLED
+
+MainSystem -> MainSystem: Transition to List Song State
+deactivate MainSystem
+@enduml
