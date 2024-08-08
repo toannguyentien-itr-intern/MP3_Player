@@ -1,4 +1,4 @@
-@startuml Initialization
+@startuml System_init
 
 actor User
 participant "System init"   as    MainSystem
