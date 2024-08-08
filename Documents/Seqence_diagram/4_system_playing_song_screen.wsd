@@ -76,6 +76,18 @@ loop system_playing_song_screen
       Set playbackMode to "Normal"
     end note
 
+    else playbackMode == Random
+      system_main -> DFPlayer: Change the playback mode to Repeat
+      activate DFPlayer
+      DFPlayer -> system_main: Return the play back mode Repeat
+      deactivate DFPlayer
+      System_main -> OLED: Display the Repeat mode
+      system_main -> system_main: playbackMode = Repeat
+    end
+    note right of System_main
+      Set playbackMode to "Repeat"
+    end note
+
     
   else Repeat
     note right of System_main
