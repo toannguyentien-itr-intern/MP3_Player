@@ -87,23 +87,17 @@ loop system_playing_song_screen
     note right of System_main
       Set playbackMode to "Repeat"
     end note
-
-    
-  else Repeat
-    note right of System_main
-      Set playbackMode to "Repeat"
-    end note
-  else Random
-    note right of System_main
-      Set playbackMode to "Random"
-    end note
+  
+  else Detect_button_press == reight && detect_click_hold == 2 click
   end
-  System_main -> OLED: Display current playbackMode
-  deactivate System_main
-end
 
 User -> System_main: Double-click Mid button (Transition to List Song State)
 activate System_main
+
+
+
+end
+
 
 System_main -> System_main: Save playbackStatus and playbackMode
 System_main -> OLED: Display list of songs
