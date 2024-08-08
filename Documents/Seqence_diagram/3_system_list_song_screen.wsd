@@ -5,25 +5,36 @@ participant OLED
 participant DFPLAYER
 
 group interact with OLED
-MainSystem -> OLED: Display list of songs
+System_main -> OLED: Display list of songs
 activate OLED
-OLED -> MainSystem: List displayed with cursor at first song
+OLED -> System_main: Return display list song status  
+System_main -> System_main: Create a default cursor = 1 at first song
 deactivate OLED
 
-MainSystem -> MainSystem: Transition to List Song State
+
+alt [Detect_button_press == Left && Detect_click_hold = 1 click]
+      alt [Cursor > 1]
+      Cursor = cursor - 1 
+    System_main -> OLED: Move the 
+
+
+
+end 
+
+System_main -> System_main: Transition to List Song State
 
 loop Navigation
-    User -> MainSystem: Click Left/Right button
-    activate MainSystem
-    MainSystem -> OLED: Move cursor up/down and update display
+    User -> System_main: Click Left/Right button
+    activate System_main
+    System_main -> OLED: Move cursor up/down and update display
     activate OLED
-    OLED -> MainSystem: Cursor updated
+    OLED -> System_main: Cursor updated
     deactivate OLED
-    deactivate MainSystem
+    deactivate System_main
 end
 
-User -> MainSystem: Click Mid button
-activate MainSystem
+User -> System_main: Click Mid button
+activate System_main
 
-MainSystem -> MainSystem: Transition to Playing Song State
+System_main -> System_main: Transition to Playing Song State
 @enduml
