@@ -3,18 +3,23 @@ actor User
 participant "Main System" as System_main
 participant OLED
 participant DFPlayer
-participant Rotation sensor
+participant Rotation_sensor as "Rotation Sensor"
 
 !define playbackStatus "Playing"
 !define playbackMode "Normal"
 
+
+System_main -> System_main: playbackStatus = "1"
+activate System_main
+System_main -> System_main: playbackMode = "0"
+deactivate System_main
+
+
 loop system_playing_song_screen
 
-' User -> MainSystem: Detect_button_press = mid
-' activate MainSystem
-
+User -> MainSystem: Press button
 alt (Detect_button_press == mid && detect_click_hold == 1 click)
-    User -> Sys
+   
     MainSystem -> DFPlayer: Toggle Play/Pause
     activate DFPlayer
     DFPlayer -> MainSystem: Playback status updated
